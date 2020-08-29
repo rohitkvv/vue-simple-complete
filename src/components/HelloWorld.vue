@@ -9,6 +9,7 @@
       >.
     </p>
     <h3>Installed CLI Plugins</h3>
+    <SimpleComplete :items="items" />
     <ul>
       <li>
         <a
@@ -104,10 +105,20 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import SimpleComplete from "./SimpleComplete.vue";
 
-@Component
+@Component({
+  components: {
+    SimpleComplete
+  }
+})
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
+  data() {
+    return {
+      items: new Array<string>("New York", "London", "Barcelona", "Amsterdam", "Mumbai")
+    };
+  }
 }
 </script>
 

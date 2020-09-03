@@ -1,11 +1,25 @@
 <template>
   <div class="sc__container">
-    <input type="search" v-model="searchInput" @blur="blur" @focus="focus" />
+    <input
+      type="search"
+      v-model="searchInput"
+      @blur="blur"
+      @input="focus"
+      @focus="focus"
+      @keyup.esc="escape"
+      @keyup.enter="enter"
+      @keydown.tab="enter"
+      @keydown.up="up"
+      @keydown.down="down"
+    />
     <div class="sc__filtered-items" v-if="canShowFilteredItems">
       <div
         class="sc__filtered-item"
+        :class="{ 'sc__filtered-item__hovered': index === cursor }"
         v-for="(item, index) in filteredItems"
         :key="index"
+        @click="selectItem(item)"
+        @mouseover="cursor = index"
       >
         <div>{{ item }}</div>
       </div>
@@ -21,7 +35,8 @@ export default Vue.extend({
     return {
       searchInput: "",
       showItems: false,
-      filteredItems: new Array<string>()
+      filteredItems: new Array<string>(),
+      cursor: -1
     };
   },
   props: {
@@ -45,7 +60,7 @@ export default Vue.extend({
   },
   methods: {
     blur() {
-      this.showItems = false;
+      setTimeout(() => (this.showItems = false), 200);
     },
     focus() {
       this.showItems = true;
@@ -60,6 +75,35 @@ export default Vue.extend({
             : true)
       );
       this.filteredItems = matchedItems.map(item => String(item));
+      this.cursor = -1;
+    },
+    selectItem(item: string) {
+      if (item) {
+        this.searchInput = item;
+        this.showItems = false;
+      }
+    },
+    enter() {
+      if (this.showItems && this.filteredItems[this.cursor]) {
+        this.selectItem(this.filteredItems[this.cursor]);
+        this.showItems = false;
+      }
+    },
+    up() {
+      if (this.cursor > -1) {
+        this.cursor--;
+        this.$el.getElementsByClassName("sc__filtered-item")[this.cursor];
+      }
+    },
+    down() {
+      this.showItems = true;
+      if (this.cursor < this.filteredItems.length) {
+        this.cursor++;
+        this.$el.getElementsByClassName("sc__filtered-item")[this.cursor];
+      }
+    },
+    escape() {
+      this.showItems = !this.showItems;
     }
   }
 });
@@ -73,24 +117,27 @@ export default Vue.extend({
   justify-content: start;
 }
 
-.sc__container > .sc__filtered-items {
+.sc__filtered-items {
   position: absolute;
+  top: 0;
+  width: auto;
   grid-row: 2;
   padding: 2px;
   text-align: left;
   border: 2px solid #ececec;
   border-top: none;
   border-radius: 2px;
-  width: auto;
   max-height: 400px;
   overflow-y: auto;
+  z-index: 9999;
 }
 
 .sc__container .sc__filtered-items .sc__filtered-item {
   cursor: pointer;
 }
 
-.sc__container .sc__filtered-items .sc__filtered-item:hover {
+.sc__container .sc__filtered-items .sc__filtered-item:hover,
+.sc__container .sc__filtered-items .sc__filtered-item__hovered {
   background-color: #eee;
   color: #101010;
 }

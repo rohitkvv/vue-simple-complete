@@ -4,7 +4,7 @@
       type="search"
       v-model="searchInput"
       @blur="blur"
-      @input="focus"
+      @input="inputChanged"
       @focus="focus"
       @keyup.esc="escape"
       @keyup.enter="enter"
@@ -65,6 +65,10 @@ export default Vue.extend({
     focus() {
       this.showItems = true;
     },
+    inputChanged() {
+      this.showItems = true;
+      this.$emit("inputChanged", this.searchInput);
+    },
     setFilteredItems(newInput = "") {
       const matchedItems: unknown[] = this.items.filter(
         item =>
@@ -80,12 +84,14 @@ export default Vue.extend({
     selectItem(item: string) {
       if (item) {
         this.searchInput = item;
+        this.$emit("inputChanged", this.searchInput);
         this.showItems = false;
       }
     },
     enter() {
       if (this.showItems && this.filteredItems[this.cursor]) {
         this.selectItem(this.filteredItems[this.cursor]);
+        this.$emit("inputChanged", this.searchInput);
         this.showItems = false;
       }
     },

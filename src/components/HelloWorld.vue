@@ -8,8 +8,9 @@
         >vue-cli documentation</a
       >.
     </p>
+    <p>Entered input is: {{ changedInput }}</p>
     <h3>Installed CLI Plugins</h3>
-    <SimpleComplete :items="items" />
+    <SimpleComplete :items="items" @inputChanged="setInput" />
     <ul>
       <li>
         <a
@@ -114,10 +115,21 @@ import SimpleComplete from "./SimpleComplete.vue";
 })
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
+  @Prop() private changedInput!: string;
   data() {
     return {
-      items: new Array<string>("New York", "London", "Barcelona", "Amsterdam", "Mumbai")
+      items: new Array<string>(
+        "New York",
+        "London",
+        "Barcelona",
+        "Amsterdam",
+        "Mumbai"
+      )
     };
+  }
+
+  setInput(value: string) {
+    this.changedInput = value;
   }
 }
 </script>

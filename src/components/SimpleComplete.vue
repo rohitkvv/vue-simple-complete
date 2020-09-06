@@ -73,13 +73,32 @@ export default Vue.extend({
       const matchedItems: unknown[] = this.items.filter(
         item =>
           item &&
-          typeof item === "string" &&
-          (newInput
-            ? item.toLocaleLowerCase().includes(newInput.toLocaleLowerCase())
-            : true)
+          (this.findMatchForArrayOfStringType(item, newInput) ||
+            this.findMatchForArrayOfObjectType(item, newInput))
       );
       this.filteredItems = matchedItems.map(item => String(item));
       this.cursor = -1;
+    },
+    findMatchForArrayOfStringType(item: unknown, newInput: string) {
+      return (
+        typeof item === "string" &&
+        (newInput
+          ? item.toLocaleLowerCase().includes(newInput.toLocaleLowerCase())
+          : true)
+      );
+    },
+    findMatchForArrayOfObjectType(item: unknown, newInput: string) {
+      if (typeof item === "object") {
+        const stringifiedObject: string = JSON.stringify(item);
+        return (
+          newInput &&
+          stringifiedObject
+            .toLocaleLowerCase()
+            .includes(newInput.toLocaleLowerCase())
+        );
+      }
+
+      return false;
     },
     selectItem(item: string) {
       if (item) {
@@ -126,6 +145,8 @@ export default Vue.extend({
 .sc__filtered-items {
   position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
   width: auto;
   grid-row: 2;
   padding: 2px;

@@ -11,7 +11,11 @@
     <p>Entered input is: {{ changedInput }}</p>
     <h3>Installed CLI Plugins</h3>
     <div class="simple-complete">
-      <SimpleComplete :items="items" @inputChanged="setInput" />
+      <SimpleComplete
+        :items="items"
+        :objectMatchkey="objectMatchkey"
+        @inputChanged="setInput"
+      />
     </div>
     <ul>
       <li>
@@ -119,11 +123,12 @@ export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
   changedInput = "";
   items = [
-    {"Id": 1, "Name": "Amsterdam"},
-    {"Id": 2, "Name": "Berlin"},
-    {"Id": 3, "Name": "London"},
-    {"Id": 4, "Name": "Mumbai"}
+    { Id: 1, Name: "Amsterdam" },
+    { Id: 2, Name: "Berlin" },
+    { Id: 3, Name: "London" },
+    { Id: 4, Name: "Mumbai" }
   ];
+  objectMatchkey = "Name";
 
   setInput(value: string) {
     this.changedInput = value;

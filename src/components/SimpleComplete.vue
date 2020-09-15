@@ -43,6 +43,14 @@ export default Vue.extend({
     items: {
       type: Array,
       required: true
+    },
+    objectMatchkey: {
+      type: String,
+      required: false
+    },
+    template: {
+      type: String,
+      required: false
     }
   },
   mounted() {
@@ -70,32 +78,53 @@ export default Vue.extend({
       this.$emit("inputChanged", this.searchInput);
     },
     setFilteredItems(newInput = "") {
-      const matchedItems: unknown[] = this.items.filter(
-        item =>
-          item &&
-          (this.findMatchForArrayOfStringType(item, newInput) ||
-            this.findMatchForArrayOfObjectType(item, newInput))
+      const areItemsOfStringtype: boolean = this.items.every(
+        item => item && typeof item === "string"
       );
-      this.filteredItems = matchedItems.map(item => String(item));
+      if (areItemsOfStringtype) {
+        this.setFilteredItemsForStringType(newInput);
+      } else if (this.items.every(item => item && typeof item === "object")) {
+        this.setFilteredItemsForObjectType(newInput);
+      }
+
       this.cursor = -1;
     },
-    findMatchForArrayOfStringType(item: unknown, newInput: string) {
-      return (
-        typeof item === "string" &&
-        (newInput
-          ? item.toLocaleLowerCase().includes(newInput.toLocaleLowerCase())
-          : true)
-      );
+    setFilteredItemsForStringType(newInput: string) {
+      const matchedItems: unknown[] = this.items.filter(item => {
+        const itemString: string = item as string;
+        return this.isMatchFoundInStringArray(itemString, newInput);
+      });
+      this.filteredItems = matchedItems.map(item => String(item));
     },
-    findMatchForArrayOfObjectType(item: unknown, newInput: string) {
-      if (typeof item === "object") {
-        const stringifiedObject: string = JSON.stringify(item);
-        return (
-          newInput &&
-          stringifiedObject
-            .toLocaleLowerCase()
-            .includes(newInput.toLocaleLowerCase())
-        );
+    setFilteredItemsForObjectType(newInput: string) {
+      const matchedItems: unknown[] = this.items.filter(item => {
+        const itemObject: object = item as object;
+        return this.isMatchFoundInObjectArray(itemObject, newInput);
+      });
+      this.filteredItems = matchedItems.map(item => {
+        const itemObject: object = item as object;
+        let stringItem: string;
+        if (this.template) {
+          //TODO: Implement
+          stringItem = this.template + item;
+        } else {
+          stringItem = String(
+            itemObject[this.objectMatchkey as keyof typeof itemObject]
+          );
+        }
+        return stringItem;
+      });
+    },
+    isMatchFoundInStringArray(item: string, newInput: string) {
+      return item.toLocaleLowerCase().includes(newInput.toLocaleLowerCase());
+    },
+    isMatchFoundInObjectArray(item: object, newInput: string) {
+      if (item && newInput && this.objectMatchkey) {
+        const data: string = item[this.objectMatchkey as keyof typeof item];
+        const isMatchFound: boolean = data
+          .toLocaleLowerCase()
+          .includes(newInput.toLocaleLowerCase());
+        return isMatchFound;
       }
 
       return false;

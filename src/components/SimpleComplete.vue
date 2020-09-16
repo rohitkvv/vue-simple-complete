@@ -91,37 +91,44 @@ export default Vue.extend({
     },
     setFilteredItemsForStringType(newInput: string) {
       const matchedItems: unknown[] = this.items.filter(item => {
-        const itemString: string = item as string;
-        return this.isMatchFoundInStringArray(itemString, newInput);
+        const stringItem: string = item as string;
+        return this.isMatchFoundInStringItem(stringItem, newInput);
       });
       this.filteredItems = matchedItems.map(item => String(item));
     },
     setFilteredItemsForObjectType(newInput: string) {
       const matchedItems: unknown[] = this.items.filter(item => {
-        const itemObject: object = item as object;
-        return this.isMatchFoundInObjectArray(itemObject, newInput);
+        const objectItem: object = item as object;
+        return this.isMatchFoundInObjectItem(objectItem, newInput);
       });
-      this.filteredItems = matchedItems.map(item => {
-        const itemObject: object = item as object;
-        let stringItem: string;
-        if (this.template) {
-          //TODO: Implement
-          stringItem = this.template + item;
-        } else {
-          stringItem = String(
-            itemObject[this.objectMatchkey as keyof typeof itemObject]
-          );
-        }
-        return stringItem;
-      });
+      this.filteredItems =
+        matchedItems && matchedItems.length > 0
+          ? matchedItems.map(item =>
+              this.constructFileteredItemFromObject(item)
+            )
+          : this.items.map(item => this.constructFileteredItemFromObject(item));
     },
-    isMatchFoundInStringArray(item: string, newInput: string) {
+    constructFileteredItemFromObject(item: unknown) {
+      const itemObject: object = item as object;
+      let stringItem: string;
+      if (this.template) {
+        //TODO: Implement
+        stringItem = this.template + item;
+      } else {
+        stringItem = String(
+          itemObject[this.objectMatchkey as keyof typeof itemObject]
+        );
+      }
+      return stringItem;
+    },
+    isMatchFoundInStringItem(item: string, newInput: string) {
       return item.toLocaleLowerCase().includes(newInput.toLocaleLowerCase());
     },
-    isMatchFoundInObjectArray(item: object, newInput: string) {
+    isMatchFoundInObjectItem(item: object, newInput: string) {
       if (item && newInput && this.objectMatchkey) {
-        const data: string = item[this.objectMatchkey as keyof typeof item];
-        const isMatchFound: boolean = data
+        const itemValue: string =
+          item[this.objectMatchkey as keyof typeof item];
+        const isMatchFound: boolean = itemValue
           .toLocaleLowerCase()
           .includes(newInput.toLocaleLowerCase());
         return isMatchFound;

@@ -36,7 +36,8 @@ export default Vue.extend({
       searchInput: "",
       showItems: false,
       filteredItems: new Array<string>(),
-      cursor: -1
+      cursor: -1,
+      tempObjectItems: new Array<object>()
     };
   },
   props: {
@@ -49,7 +50,7 @@ export default Vue.extend({
       required: false
     },
     template: {
-      type: String,
+      type: Object,
       required: false
     }
   },
@@ -101,6 +102,7 @@ export default Vue.extend({
         const objectItem: object = item as object;
         return this.isMatchFoundInObjectItem(objectItem, newInput);
       });
+      this.tempObjectItems.splice(0, this.tempObjectItems.length);
       this.filteredItems =
         matchedItems && matchedItems.length > 0
           ? matchedItems.map(item =>
@@ -112,14 +114,27 @@ export default Vue.extend({
       const itemObject: object = item as object;
       let stringItem: string;
       if (this.template) {
-        //TODO: Implement
-        stringItem = this.template + item;
+        stringItem = this.getStringItemBasedOnTemplate(itemObject);
       } else {
         stringItem = String(
           itemObject[this.objectMatchkey as keyof typeof itemObject]
         );
       }
       return stringItem;
+    },
+    getStringItemBasedOnTemplate(item: object) {
+      if (this.template && this.template.keys) {
+        const templateKeys: string[] = this.template.keys as string[];
+        if (templateKeys) {
+          const itemValues = templateKeys.map(
+            key => item[key as keyof typeof item] as string
+          );
+          this.tempObjectItems.push(item);
+          return itemValues.join(this.template.separator);
+        }
+      }
+
+      return String(item[this.objectMatchkey as keyof typeof item]);
     },
     isMatchFoundInStringItem(item: string, newInput: string) {
       return item.toLocaleLowerCase().includes(newInput.toLocaleLowerCase());
@@ -138,10 +153,23 @@ export default Vue.extend({
     },
     selectItem(item: string) {
       if (item) {
-        this.searchInput = item;
+        this.searchInput = this.getSelectedItem(item);
         this.$emit("inputChanged", this.searchInput);
         this.showItems = false;
       }
+    },
+    getSelectedItem(item: string) {
+      if (this.objectMatchkey && this.tempObjectItems) {
+        const itemObject = this.tempObjectItems.find(tempItem =>
+          item.includes(tempItem[this.objectMatchkey as keyof typeof tempItem])
+        );
+        if (itemObject) {
+          return (
+            itemObject[this.objectMatchkey as keyof typeof itemObject] ?? item
+          );
+        }
+      }
+      return item;
     },
     enter() {
       if (this.showItems && this.filteredItems[this.cursor]) {

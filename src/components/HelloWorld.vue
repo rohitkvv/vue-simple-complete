@@ -14,6 +14,7 @@
       <SimpleComplete
         :items="items"
         :objectMatchkey="objectMatchkey"
+        :template="template"
         @inputChanged="setInput"
       />
     </div>
@@ -129,6 +130,10 @@ export default class HelloWorld extends Vue {
     { Id: 4, Name: "Mumbai" }
   ];
   objectMatchkey = "Name";
+  template = {
+    keys: ["Id", "Name"],
+    separator: ", "
+  };
 
   setInput(value: string) {
     this.changedInput = value;

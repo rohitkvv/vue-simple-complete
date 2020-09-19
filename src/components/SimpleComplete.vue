@@ -117,7 +117,7 @@ export default Vue.extend({
         stringItem = this.getStringItemBasedOnTemplate(itemObject);
       } else {
         stringItem = String(
-          itemObject[this.objectMatchkey as keyof typeof itemObject]
+          itemObject[this.objectMatchkey as keyof typeof itemObject] ?? ""
         );
       }
       return stringItem;

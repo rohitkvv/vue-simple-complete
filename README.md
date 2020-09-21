@@ -38,7 +38,7 @@ npm i vue-simple-complete
 
 | Function | Type | Description |
 |----------|------|-------------|
-| v-on:inputChanged | Function | When input is changed this event gets fired. The consumers of the vue-simple-complete component can listen to this event and get the entered or selected value |
+| @inputChanged | Function | When input is changed this event gets fired. The consumers of the vue-simple-complete component can listen to this event and get the entered or selected value |
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

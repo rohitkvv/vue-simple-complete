@@ -1,20 +1,19 @@
 {
   "name": "vue-simple-complete",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "private": false,
-  "main": "./dist/vue-simple-complete.common.js",
+  "main": "./dist/vue-simple-complete.common",
   "files": [
     "dist/*",
     "src/*",
-    "public/*",
     "*.json",
-    "*.ts",
-    "plugins/*"
+    "*.js",
+    "*.ts"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-bundle": "vue-cli-service build --target lib --name vue-simple-complete ./src/components/index.ts",
+    "build-bundle": "vue-cli-service build --target lib --name vue-simple-complete ./src/index.js",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },

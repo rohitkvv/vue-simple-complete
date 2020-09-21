@@ -143,3 +143,5 @@ As a temporary fix, please add a type declaration file in the src folder of your
 declare module "vue-simple-complete";
 
 ```
+
+This will be fixed in the upcoming release

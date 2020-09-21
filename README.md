@@ -1,5 +1,5 @@
 # vue-simple-complete
-https://github.com/rohitkvv/vue-simple-complete/releases/tag/1.0.5
+https://github.com/rohitkvv/vue-simple-complete/releases/tag/1.1.1
 
 # Description
 A simple autocomplete input built using Vue & Typescript
@@ -136,7 +136,7 @@ Try `npm install @types/vue-simple-complete` if it exists or add a new declarati
 
 ```
 
-As a temporary fix, please add a type declaration file in the src folder of your application, the file name can be anything with following extension
+As a temporary workaround, please add a type declaration file in the src folder of your application, the file name can be anything with following extension
 (.d.ts) and add the following line to the file
 
 ```

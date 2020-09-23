@@ -128,7 +128,7 @@ npm i vue-simple-complete
 ```
 
 ### Note:
-There is a known issue where you will see the following error when you import the component
+There is a known issue where you will see the following error when you import the component into a TypeScript project
 
 ```
 Could not find a declaration file for module 'vue-simple-complete'.
@@ -136,12 +136,10 @@ Try `npm install @types/vue-simple-complete` if it exists or add a new declarati
 
 ```
 
-As a temporary workaround, please add a type declaration file in the src folder of your application, the file name can be anything with following extension
-(.d.ts) and add the following line to the file
-
-```
-declare module "vue-simple-complete";
+As a solution, please edit your TypeScript Config file (tsconfig.json) and add a new key value pair as -
 
 ```
 
-This will be fixed in the upcoming release
+"noImplicitAny": false
+
+```

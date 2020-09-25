@@ -1,5 +1,5 @@
 # vue-simple-complete
-https://github.com/rohitkvv/vue-simple-complete/releases/tag/1.1.1
+https://github.com/rohitkvv/vue-simple-complete/releases/tag/1.1.2
 
 # Description
 A simple autocomplete input built using Vue & Typescript

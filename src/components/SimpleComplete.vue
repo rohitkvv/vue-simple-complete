@@ -104,7 +104,7 @@ export default Vue.extend({
       });
       this.tempObjectItems.splice(0, this.tempObjectItems.length);
       this.filteredItems =
-        matchedItems && matchedItems.length > 0
+        matchedItems.length > 0
           ? matchedItems.map(item =>
               this.constructFileteredItemFromObject(item)
             )
@@ -125,13 +125,11 @@ export default Vue.extend({
     getStringItemBasedOnTemplate(item: object) {
       if (this.template && this.template.keys) {
         const templateKeys: string[] = this.template.keys as string[];
-        if (templateKeys) {
-          const itemValues = templateKeys.map(
-            key => item[key as keyof typeof item] as string
-          );
-          this.tempObjectItems.push(item);
-          return itemValues.join(this.template.separator);
-        }
+        const itemValues = templateKeys.map(
+          key => item[key as keyof typeof item] as string
+        );
+        this.tempObjectItems.push(item);
+        return itemValues.join(this.template.separator);
       }
 
       return String(item[this.objectMatchkey as keyof typeof item]);

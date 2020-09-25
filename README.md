@@ -30,15 +30,15 @@ npm i vue-simple-complete
 ```
 
 ### Wiki
-| Props | Type | Description |
-|-------|------|-------------|
-| :items | Array | This contains data for the auto-complete, this can either be an array of string or an array of custom objects|
-| :objectMatchkey | String | This is required if the items is of type object array. The objectMatchKey then becomes the key that is used within the match function |
-| :template | Object | This is required if the items is of type object array. The template is then used to display the items as per the defined template. If the template is not defined then ObjectMatchKey will be used to form the items display |
+|      Props      |   Type    |  Description  |
+|-----------------|-----------|---------------|
+|      :items     |    Array  | This contains data for the auto-complete, this can either be an array of string or an array of custom objects|
+| :objectMatchkey |   String  | This is required if the items is of type object array. The objectMatchKey then becomes the key that is used within the match function |
+|    :template    |   Object  | This is required if the items is of type object array. The template is then used to display the items as per the defined template. If the template is not defined then ObjectMatchKey will be used to form the items display |
 
-| Function | Type | Description |
-|----------|------|-------------|
-| @inputChanged | Function | When input is changed this event gets fired. The consumers of the vue-simple-complete component can listen to this event and get the entered or selected value |
+|      Function    |    Type   |  Description  |
+|------------------|-----------|---------------|
+|  @inputChanged   |  Function | When input is changed this event gets fired. The consumers of the vue-simple-complete component can listen to this event and get the entered or selected value |
 
 ### Example-1: With items of Object type
 ```

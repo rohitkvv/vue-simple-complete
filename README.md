@@ -89,6 +89,10 @@ npm i vue-simple-complete
 
 ```
 
+![ObjectImage1](./readme-assets/object-ex-1.png)
+![ObjectImage2](./readme-assets/object-ex-2.png)
+![ObjectImage3](./readme-assets/object-ex-3.png)
+
 ### Example-2: With items of string type
 ```
 <vue-simple-complete

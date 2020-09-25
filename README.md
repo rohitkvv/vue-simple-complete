@@ -4,6 +4,8 @@ https://github.com/rohitkvv/vue-simple-complete/releases/tag/1.1.1
 # Description
 A simple autocomplete input built using Vue & Typescript
 
+[![DeepScan grade](https://deepscan.io/api/teams/11042/projects/13965/branches/248867/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11042&pid=13965&bid=248867) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/rohitkvv/vue-simple-complete.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/rohitkvv/vue-simple-complete/context:javascript)
+
 ## Project setup
 ```
 yarn add vue-simple-complete

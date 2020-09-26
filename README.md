@@ -2,7 +2,7 @@
 https://github.com/rohitkvv/vue-simple-complete/releases/tag/1.1.3
 
 # Description
-A simple autocomplete input 🔨 built using [Vue.JS](vue) & [Typescript](typescript)
+A simple autocomplete input 🔨 built using [Vue.JS](https://vuejs.org) & [Typescript](https://www.typescriptlang.org)
 
 [![DeepScan grade](https://deepscan.io/api/teams/11042/projects/13965/branches/248867/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11042&pid=13965&bid=248867) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/rohitkvv/vue-simple-complete.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/rohitkvv/vue-simple-complete/context:javascript) ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/rohitkvv/vue-simple-complete)
 

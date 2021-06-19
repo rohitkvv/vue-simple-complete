@@ -31,6 +31,12 @@
     "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
+  "resolutions": {
+    "normalize-url": "^6.0.1",
+    "css-what": "^5.0.1",
+    "glob-parent": "^5.1.2",
+    "yargs-parser": "^18.1.2"
+  },
   "license": "MIT",
   "dependencies": {
     "core-js": "^3.14.0",

@@ -163,11 +163,9 @@ export default Vue.extend({
     },
     getSelectedItem(item: string) {
       if (this.objectMatchkey && this.tempObjectItems) {
-        const itemObject = this.tempObjectItems.find(tempItem => {
-          if (tempItem && typeof tempItem === "object") {
-            item.includes(tempItem[this.objectMatchkey as keyof typeof tempItem])
-          }
-        });
+        const itemObject = this.tempObjectItems.find(tempItem => 
+            tempItem && typeof tempItem === "object" && item.includes(tempItem[this.objectMatchkey as keyof typeof tempItem])
+        );
         if (itemObject && typeof itemObject === "object") {
           return (
             itemObject[this.objectMatchkey as keyof typeof itemObject] ?? item

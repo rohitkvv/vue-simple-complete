@@ -37,7 +37,7 @@ export default Vue.extend({
       showItems: false,
       filteredItems: new Array<string>(),
       cursor: -1,
-      tempObjectItems: new Array<object>()
+      tempObjectItems: new Array<unknown>()
     };
   },
   props: {
@@ -99,7 +99,7 @@ export default Vue.extend({
     },
     setFilteredItemsForObjectType(newInput: string) {
       const matchedItems: unknown[] = this.items.filter(item => {
-        const objectItem: object = item as object;
+        const objectItem: unknown = item as unknown;
         return this.isMatchFoundInObjectItem(objectItem, newInput);
       });
       this.tempObjectItems.splice(0, this.tempObjectItems.length);
@@ -111,34 +111,39 @@ export default Vue.extend({
           : this.items.map(item => this.constructFileteredItemFromObject(item));
     },
     constructFileteredItemFromObject(item: unknown) {
-      const itemObject: object = item as object;
-      let stringItem: string;
-      if (this.template) {
-        stringItem = this.getStringItemBasedOnTemplate(itemObject);
-      } else {
-        stringItem = String(
-          itemObject[this.objectMatchkey as keyof typeof itemObject] ?? ""
-        );
+      let stringItem = "";
+      if (item && typeof item === "object") {
+        if (this.template) {
+          stringItem = this.getStringItemBasedOnTemplate(item);
+        } else {
+          stringItem = String(
+            item[this.objectMatchkey as keyof typeof item] ?? ""
+          );
+        }
       }
       return stringItem;
     },
-    getStringItemBasedOnTemplate(item: object) {
-      if (this.template && this.template.keys) {
-        const templateKeys: string[] = this.template.keys as string[];
-        const itemValues = templateKeys.map(
-          key => item[key as keyof typeof item] as string
-        );
-        this.tempObjectItems.push(item);
-        return itemValues.join(this.template.separator);
-      }
+    getStringItemBasedOnTemplate(item: unknown) {
+      if (item && typeof item === "object") {
+        if (this.template && this.template.keys) {
+          const templateKeys: string[] = this.template.keys as string[];
+          const itemValues = templateKeys.map(
+            key => item[key as keyof typeof item] as string
+          );
+          this.tempObjectItems.push(item);
+          return itemValues.join(this.template.separator);
+        }
 
-      return String(item[this.objectMatchkey as keyof typeof item]);
+        return String(item[this.objectMatchkey as keyof typeof item]);
+      }
+      
+      return "";
     },
     isMatchFoundInStringItem(item: string, newInput: string) {
       return item.toLocaleLowerCase().includes(newInput.toLocaleLowerCase());
     },
-    isMatchFoundInObjectItem(item: object, newInput: string) {
-      if (item && newInput && this.objectMatchkey) {
+    isMatchFoundInObjectItem(item: unknown, newInput: string) {
+      if (item && typeof item === "object"  && newInput && this.objectMatchkey) {
         const itemValue: string =
           item[this.objectMatchkey as keyof typeof item];
         const isMatchFound: boolean = itemValue
@@ -158,10 +163,12 @@ export default Vue.extend({
     },
     getSelectedItem(item: string) {
       if (this.objectMatchkey && this.tempObjectItems) {
-        const itemObject = this.tempObjectItems.find(tempItem =>
-          item.includes(tempItem[this.objectMatchkey as keyof typeof tempItem])
-        );
-        if (itemObject) {
+        const itemObject = this.tempObjectItems.find(tempItem => {
+          if (tempItem && typeof tempItem === "object") {
+            item.includes(tempItem[this.objectMatchkey as keyof typeof tempItem])
+          }
+        });
+        if (itemObject && typeof itemObject === "object") {
           return (
             itemObject[this.objectMatchkey as keyof typeof itemObject] ?? item
           );
